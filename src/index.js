@@ -15,3 +15,5 @@ export const basic = (thresholds, data) => data.map((item) => {
   }
   return newItem
 })
+
+export { versionA } from './version-a'

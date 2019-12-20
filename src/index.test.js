@@ -37,30 +37,36 @@ const thresholds = {
   },
 }
 
+const expected = [
+  {
+    name: 'a',
+    value: 6,
+    status: 'ERROR',
+  },
+  {
+    name: 'b',
+    value: 20,
+    status: 'OK',
+  },
+  {
+    name: 'c',
+    value: -4,
+    status: 'ERROR',
+  },
+  {
+    name: 'c',
+    value: 19,
+    status: 'WARNING',
+  },
+]
+
 describe('basic', () => {
   test('basic', () => {
-    expect(mod.basic(thresholds,data)).toEqual([
-      {
-        name: 'a',
-        value: 6,
-        status: 'ERROR',
-      },
-      {
-        name: 'b',
-        value: 20,
-        status: 'OK',
-      },
-      {
-        name: 'c',
-        value: -4,
-        status: 'ERROR',
-      },
-      {
-        name: 'c',
-        value: 19,
-        status: 'WARNING',
-      },
-    ])
+    expect(mod.basic(thresholds,data)).toEqual(expected)
+  })
+
+  test('versionA', () => {
+    expect(mod.versionA(thresholds,data)).toEqual(expected)
   })
 })
 
