@@ -2,7 +2,7 @@ const greater = (a, b) => a > b
 const lesser = (a, b) => a < b
 const within = (distance, a, b) => Math.abs(a - b) <= distance
 const equal = (a, b) => a === b
-const equals = (a) => (b) => a === b
+const equals = (a) => (b) => equal(a, b)
 const isEven = (a) => a % 2 === 0
 const yes = () => true
 const getField = (field, object) => object[field]
@@ -64,14 +64,24 @@ const findConditionAndOperate = (conditions, item, threshold) =>
       )
   ).operation(item)
 
-const setOddEven = (x) =>
+const oddEvenLogic = (x) =>
   isEven(x.value)
     ? { ...x, even: true }
     : { ...x, odd: true }
 
+const reverse = (x) => x.split('').reverse().join('')
+
+const reverseLogic = (x) => {
+  if (x.reverseme) {
+    const updated = {...x, reversed: reverse(x.name) }
+    delete updated.reverseme
+    return updated
+  }
+  return x
+}
+
 export const versionA = (thresholds, data) => {
   const operations = [
-    // update status
     (currentItem) => {
       const threshold = thresholds[currentItem.name]
       return threshold
@@ -79,9 +89,11 @@ export const versionA = (thresholds, data) => {
         : currentItem
     },
 
-    // odd and even
-    setOddEven,
+    oddEvenLogic,
+
+    reverseLogic,
   ]
+
   return data.map(
     (item) => operations.reduce((acc, operation) => operation(acc), item)
   )
