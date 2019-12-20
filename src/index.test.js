@@ -11,6 +11,14 @@ const data = [
   },
   {
     name: 'b',
+    value: 3,
+  },
+  {
+    name: 'b',
+    value: 9,
+  },
+  {
+    name: 'b',
     value: 19,
   },
   {
@@ -53,12 +61,22 @@ const expected = [
   {
     name: 'a',
     value: 3,
-    status: 'THREE',
+    status: 'PERFECT',
   },
   {
     name: 'a',
     value: 6,
     status: 'ERROR',
+  },
+  {
+    name: 'b',
+    value: 3,
+    status: 'THREE',
+  },
+  {
+    name: 'b',
+    value: 9,
+    status: 'NINE',
   },
   {
     name: 'b',
@@ -88,11 +106,11 @@ const expected = [
 ]
 
 describe('basic', () => {
-  test('basic', () => {
+  fit('basic', () => {
     expect(mod.basic(thresholds,data)).toEqual(expected)
   })
 
-  test('versionA', () => {
+  it('versionA', () => {
     expect(mod.versionA(thresholds,data)).toEqual(expected)
   })
 })

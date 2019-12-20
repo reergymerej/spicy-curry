@@ -58,3 +58,8 @@ console.log(subtract(99, 100))
 Seems like all we're doing is currying shit for no real reason.  If we are
 doing it for reuse, that's one thing.  Otherwise, just inline it.  There's no
 need in creating the overhead of such narrowly defined functions.
+
+Let's try again and see how it feels.
+
+* If it's 9, "NINE".
+* "PERFECT" takes priority.
