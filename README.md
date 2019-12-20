@@ -132,3 +132,12 @@ So now that we've refactored a bit, how is changing it?
 
 * If the value has the "reverseme" flag, add a "reversed" field with the name
     reveresed.
+
+
+It seems like we are getting more verbose, harder to follow code.  It doesn't
+seem to win like this.  I suspect this is because our "basic" version is just a
+bunch of if...else.  The tradeoff is probably composability.
+
+One last thing.
+
+*

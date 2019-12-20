@@ -8,31 +8,31 @@ const yes = () => true
 const getField = (field, object) => object[field]
 
 const getValueReplacer = (prop) => (object, value) => ({...object, [prop]: value})
-const preloadStatusReplacerValue = (value) => (object) => getValueReplacer('status')(object, value)
-const statusWithError = preloadStatusReplacerValue('ERROR')
+const setStatus = (value) => (object) => getValueReplacer('status')(object, value)
+const statusWithError = setStatus('ERROR')
 
 const statusLogic = [
   {
     field: 'expected',
     condition: equal,
-    operation: preloadStatusReplacerValue('PERFECT'),
+    operation: setStatus('PERFECT'),
   },
   {
     field: 'expected',
     condition: (a, b) => within(1, a, b),
-    operation: preloadStatusReplacerValue('ALMOST_PERFECT'),
+    operation: setStatus('ALMOST_PERFECT'),
   },
   {
     condition: equals(9),
-    operation: preloadStatusReplacerValue('NINE'),
+    operation: setStatus('NINE'),
   },
   {
     condition: equals(3),
-    operation: preloadStatusReplacerValue('THREE'),
+    operation: setStatus('THREE'),
   },
   {
     condition: equals(7),
-    operation: preloadStatusReplacerValue('SEVEN'),
+    operation: setStatus('SEVEN'),
   },
   {
     field: 'high',
@@ -42,7 +42,7 @@ const statusLogic = [
   {
     field: 'expected',
     condition: greater,
-    operation: preloadStatusReplacerValue('WARNING'),
+    operation: setStatus('WARNING'),
   },
   {
     field: 'low',
@@ -51,7 +51,7 @@ const statusLogic = [
   },
   {
     condition: yes,
-    operation: preloadStatusReplacerValue('OK'),
+    operation: setStatus('OK'),
   },
 ]
 
@@ -80,21 +80,21 @@ const reverseLogic = (x) => {
   return x
 }
 
+const getStatusLogic = (thresholds) => (item) => {
+  const threshold = thresholds[item.name]
+  return threshold
+    ? findConditionAndOperate(statusLogic, item, threshold)
+    : item
+}
+
 export const versionA = (thresholds, data) => {
   const operations = [
-    (currentItem) => {
-      const threshold = thresholds[currentItem.name]
-      return threshold
-        ? findConditionAndOperate(statusLogic, currentItem, threshold)
-        : currentItem
-    },
-
+    getStatusLogic(thresholds),
     oddEvenLogic,
-
     reverseLogic,
   ]
 
-  return data.map(
-    (item) => operations.reduce((acc, operation) => operation(acc), item)
+  return data.map((item) =>
+    operations.reduce((acc, operation) => operation(acc), item)
   )
 }
