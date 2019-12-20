@@ -19,6 +19,10 @@ const data = [
   },
   {
     name: 'c',
+    value: 7,
+  },
+  {
+    name: 'c',
     value: 19,
   },
 ]
@@ -61,6 +65,11 @@ const expected = [
     name: 'c',
     value: -4,
     status: 'ERROR',
+  },
+  {
+    name: 'c',
+    value: 7,
+    status: 'SEVEN',
   },
   {
     name: 'c',
