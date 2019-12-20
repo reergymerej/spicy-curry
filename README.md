@@ -113,3 +113,16 @@ const checkUnderField = (field) =>
     const value2 = getField(field, threshold)
     return lesser(value, value2)
   }
+
+
+---
+
+After refactoring a bit, the atomic feels less awkward.  Maybe it's a smell when
+you start getting really long strings of functions to preload some sort of
+logic.  Instead, try and figure out what to do earlier and then feed that into
+the functions.
+
+
+Here's another test.
+
+* In addition to the other rules, I want to add an odd/even prop.
