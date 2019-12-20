@@ -21,16 +21,20 @@ const statusWithError = preloadStatusReplacerValue('ERROR')
 
 const logic = [
   {
+    condition: checkEqualField('expected'),
+    operation: preloadStatusReplacerValue('PERFECT'),
+  },
+  {
+    condition: checkByValue(is(9)),
+    operation: preloadStatusReplacerValue('NINE'),
+  },
+  {
     condition: checkByValue(is(3)),
     operation: preloadStatusReplacerValue('THREE'),
   },
   {
     condition: checkByValue(is(7)),
     operation: preloadStatusReplacerValue('SEVEN'),
-  },
-  {
-    condition: checkEqualField('expected'),
-    operation: preloadStatusReplacerValue('PERFECT'),
   },
   {
     condition: checkOverField('high'),
