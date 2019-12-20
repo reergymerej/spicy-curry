@@ -5,6 +5,8 @@ export const basic = (thresholds, data) => data.map((item) => {
     const { value } = item
     if (value === threshold.expected) {
       newItem.status = 'PERFECT'
+    } else if (Math.abs(threshold.expected - value) <= 1) {
+      newItem.status = 'ALMOST_PERFECT'
     } else if (value === 3) {
       newItem.status = 'THREE'
     } else if (value === 9) {

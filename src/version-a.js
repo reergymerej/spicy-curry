@@ -1,10 +1,14 @@
 const greater = (a, b) => a > b
 const lesser = (a, b) => a < b
+const within = (distance, a, b) => Math.abs(a - b) <= distance
 const equal = (a, b) => a === b
 const is = (a) => (b) => a === b
 
 const checkByValue = (checker) => (value) => checker(value)
+
 const checkByField = (comparer) => (field) => (value, threshold) => comparer(value, threshold[field])
+const checkWitinDistance = (distance, field) => (value, threshold) => within(distance, value, threshold[field])
+
 const checkOverField = checkByField(greater)
 const checkEqualField = checkByField(equal)
 const checkUnderField = checkByField(lesser)
@@ -23,6 +27,10 @@ const logic = [
   {
     condition: checkEqualField('expected'),
     operation: preloadStatusReplacerValue('PERFECT'),
+  },
+  {
+    condition: checkWitinDistance(1, 'expected'),
+    operation: preloadStatusReplacerValue('ALMOST_PERFECT'),
   },
   {
     condition: checkByValue(is(9)),
