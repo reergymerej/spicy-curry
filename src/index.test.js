@@ -3,6 +3,10 @@ import * as mod from '.'
 const data = [
   {
     name: 'a',
+    value: 3,
+  },
+  {
+    name: 'a',
     value: 6,
   },
   {
@@ -46,6 +50,11 @@ const thresholds = {
 }
 
 const expected = [
+  {
+    name: 'a',
+    value: 3,
+    status: 'THREE',
+  },
   {
     name: 'a',
     value: 6,
