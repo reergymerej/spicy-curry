@@ -7,6 +7,10 @@ const data = [
   },
   {
     name: 'b',
+    value: 19,
+  },
+  {
+    name: 'b',
     value: 20,
   },
   {
@@ -45,8 +49,13 @@ const expected = [
   },
   {
     name: 'b',
-    value: 20,
+    value: 19,
     status: 'OK',
+  },
+  {
+    name: 'b',
+    value: 20,
+    status: 'PERFECT',
   },
   {
     name: 'c',
