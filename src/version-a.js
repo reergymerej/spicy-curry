@@ -2,22 +2,9 @@ const greater = (a, b) => a > b
 const lesser = (a, b) => a < b
 const within = (distance, a, b) => Math.abs(a - b) <= distance
 const equal = (a, b) => a === b
-const is = (a) => (b) => a === b
-
-const checkByValue = (checker) => (value) => checker(value)
-
-const checkByField = (comparer) => (field) => (value, threshold) => comparer(value, threshold[field])
-const checkWitinDistance = (distance, field) => (value, threshold) => within(distance, value, threshold[field])
-
-const checkOverField = checkByField(greater)
-const checkEqualField = checkByField(equal)
-const checkUnderField = checkByField(lesser)
+const equals = (a) => (b) => a === b
 const yes = () => true
-
-const findConditionAndOperate = (conditions) => (item, threshold) =>
-  conditions.find(
-    ({ condition }) => condition(item.value, threshold)
-  ).operation(item)
+const getField = (field, object) => object[field]
 
 const getValueReplacer = (prop) => (object, value) => ({...object, [prop]: value})
 const preloadStatusReplacerValue = (value) => (object) => getValueReplacer('status')(object, value)
@@ -25,42 +12,56 @@ const statusWithError = preloadStatusReplacerValue('ERROR')
 
 const logic = [
   {
-    condition: checkEqualField('expected'),
+    field: 'expected',
+    condition: equal,
     operation: preloadStatusReplacerValue('PERFECT'),
   },
   {
-    condition: checkWitinDistance(1, 'expected'),
+    field: 'expected',
+    condition: (a, b) => within(1, a, b),
     operation: preloadStatusReplacerValue('ALMOST_PERFECT'),
   },
   {
-    condition: checkByValue(is(9)),
+    condition: equals(9),
     operation: preloadStatusReplacerValue('NINE'),
   },
   {
-    condition: checkByValue(is(3)),
+    condition: equals(3),
     operation: preloadStatusReplacerValue('THREE'),
   },
   {
-    condition: checkByValue(is(7)),
+    condition: equals(7),
     operation: preloadStatusReplacerValue('SEVEN'),
   },
   {
-    condition: checkOverField('high'),
+    field: 'high',
+    condition: greater,
     operation: statusWithError,
   },
   {
-    condition: checkOverField('expected'),
+    field: 'expected',
+    condition: greater,
     operation: preloadStatusReplacerValue('WARNING'),
   },
   {
-    condition: checkUnderField('low'),
+    field: 'low',
+    condition: lesser,
     operation: statusWithError,
   },
   {
-    condition:  yes,
+    condition: yes,
     operation: preloadStatusReplacerValue('OK'),
   },
 ]
+
+const findConditionAndOperate = (conditions) => (item, threshold) =>
+  conditions.find(
+    ({ condition, field }) =>
+      condition(
+        getField('value', item),
+        getField(field, threshold)
+      )
+  ).operation(item)
 
 const getStatusSetter = (threshold, item) =>
   findConditionAndOperate(logic)(item, threshold)

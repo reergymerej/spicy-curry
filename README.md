@@ -71,3 +71,45 @@ This may be because of the simplicity of the logic.  Let's try something a bit
 different.
 
 * If we're within 1 of "PERFECT", "ALMOST_PERFECT".
+
+It feels like this will scale better, but it's not obvious here.  The logic is
+all super simple, just abstract.
+
+
+```js
+const checkByField = (comparer) => (field) => (value, threshold) => comparer(value, threshold[field])
+```
+This is the kind of stuff I thought about this morning.  The values come right
+at the end.  Can we rewrite this using a callback or something so we don't have
+to do all partial application upfront.
+
+
+
+// It feels like this is inverted.  Why do I have to pull this data?
+const checkFieldWithinDistance = (field, distance) =>
+  (value, threshold) =>
+  {
+    const value2 = getField(field, threshold)
+    return within(distance, value, value2)
+  }
+
+const checkOverField = (field) =>
+  (value, threshold) =>
+  {
+    const value2 = getField(field, threshold)
+    return greater(value, value2)
+  }
+
+const checkEqualField = (field) =>
+  (value, threshold) =>
+  {
+    const value2 = getField(field, threshold)
+    return equal(value, value2)
+  }
+
+const checkUnderField = (field) =>
+  (value, threshold) =>
+  {
+    const value2 = getField(field, threshold)
+    return lesser(value, value2)
+  }
