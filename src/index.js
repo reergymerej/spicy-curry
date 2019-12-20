@@ -1,3 +1,5 @@
+const reverse = (x) => x.split('').reverse().join('')
+
 export const basic = (thresholds, data) => data.map((item) => {
   const newItem = {...item}
   const threshold = thresholds[item.name]
@@ -28,6 +30,11 @@ export const basic = (thresholds, data) => data.map((item) => {
     } else {
       newItem.odd = true
     }
+  }
+
+  if (item.reverseme) {
+    newItem.reversed = reverse(item.name)
+    delete newItem.reverseme
   }
   return newItem
 })
