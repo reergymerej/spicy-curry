@@ -178,7 +178,7 @@ const expected = [
 ]
 
 describe('basic', () => {
-  it('basic', () => {
+  fit('basic', () => {
     expect(mod.basic(thresholds,data)).toEqual(expected)
   })
 

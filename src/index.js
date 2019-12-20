@@ -22,6 +22,12 @@ export const basic = (thresholds, data) => data.map((item) => {
     } else {
       newItem.status = 'OK'
     }
+
+    if (value % 2 === 0) {
+      newItem.even = true
+    } else {
+      newItem.odd = true
+    }
   }
   return newItem
 })
