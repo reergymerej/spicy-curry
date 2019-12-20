@@ -63,3 +63,11 @@ Let's try again and see how it feels.
 
 * If it's 9, "NINE".
 * "PERFECT" takes priority.
+
+
+The gap is narrowing.  It felt about the same for each.
+
+This may be because of the simplicity of the logic.  Let's try something a bit
+different.
+
+* If we're within 1 of "PERFECT", "ALMOST_PERFECT".

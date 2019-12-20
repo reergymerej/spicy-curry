@@ -35,7 +35,31 @@ const data = [
   },
   {
     name: 'c',
+    value: 17,
+  },
+  {
+    name: 'c',
     value: 19,
+  },
+  {
+    name: 'c',
+    value: 20,
+  },
+  {
+    name: 'd',
+    value: 0,
+  },
+  {
+    name: 'd',
+    value: 1,
+  },
+  {
+    name: 'd',
+    value: -1,
+  },
+  {
+    name: 'd',
+    value: 3,
   },
 ]
 
@@ -54,6 +78,9 @@ const thresholds = {
     low: 10,
     expected: 18,
     high: 20,
+  },
+  d: {
+    expected: 0,
   },
 }
 
@@ -81,7 +108,7 @@ const expected = [
   {
     name: 'b',
     value: 19,
-    status: 'OK',
+    status: 'ALMOST_PERFECT',
   },
   {
     name: 'b',
@@ -100,13 +127,43 @@ const expected = [
   },
   {
     name: 'c',
+    value: 17,
+    status: 'ALMOST_PERFECT',
+  },
+  {
+    name: 'c',
     value: 19,
+    status: 'ALMOST_PERFECT',
+  },
+  {
+    name: 'c',
+    value: 20,
     status: 'WARNING',
+  },
+  {
+    name: 'd',
+    value: 0,
+    status: 'PERFECT',
+  },
+  {
+    name: 'd',
+    value: 1,
+    status: 'ALMOST_PERFECT',
+  },
+  {
+    name: 'd',
+    value: -1,
+    status: 'ALMOST_PERFECT',
+  },
+  {
+    name: 'd',
+    value: 3,
+    status: 'THREE',
   },
 ]
 
 describe('basic', () => {
-  it('basic', () => {
+  fit('basic', () => {
     expect(mod.basic(thresholds,data)).toEqual(expected)
   })
 
