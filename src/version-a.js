@@ -3,6 +3,7 @@ const lesser = (a, b) => a < b
 const within = (distance, a, b) => Math.abs(a - b) <= distance
 const equal = (a, b) => a === b
 const equals = (a) => (b) => a === b
+const isEven = (a) => a % 2 === 0
 const yes = () => true
 const getField = (field, object) => object[field]
 
@@ -10,7 +11,7 @@ const getValueReplacer = (prop) => (object, value) => ({...object, [prop]: value
 const preloadStatusReplacerValue = (value) => (object) => getValueReplacer('status')(object, value)
 const statusWithError = preloadStatusReplacerValue('ERROR')
 
-const logic = [
+const statusLogic = [
   {
     field: 'expected',
     condition: equal,
@@ -54,7 +55,7 @@ const logic = [
   },
 ]
 
-const findConditionAndOperate = (conditions) => (item, threshold) =>
+const findConditionAndOperate = (conditions, item, threshold) =>
   conditions.find(
     ({ condition, field }) =>
       condition(
@@ -63,15 +64,25 @@ const findConditionAndOperate = (conditions) => (item, threshold) =>
       )
   ).operation(item)
 
-const getStatusSetter = (threshold, item) =>
-  findConditionAndOperate(logic)(item, threshold)
+const setOddEven = (x) =>
+  isEven(x.value)
+    ? { ...x, even: true }
+    : { ...x, odd: true }
 
-const getItemUpdater = (thresholds) => (item) => {
-  const threshold = thresholds[item.name]
-  return threshold
-    ? getStatusSetter(threshold, item)
-    : item
+export const versionA = (thresholds, data) => {
+  const operations = [
+    // update status
+    (currentItem) => {
+      const threshold = thresholds[currentItem.name]
+      return threshold
+        ? findConditionAndOperate(statusLogic, currentItem, threshold)
+        : currentItem
+    },
+
+    // odd and even
+    setOddEven,
+  ]
+  return data.map(
+    (item) => operations.reduce((acc, operation) => operation(acc), item)
+  )
 }
-
-export const versionA = (thresholds, data) =>
-  data.map(getItemUpdater(thresholds))
