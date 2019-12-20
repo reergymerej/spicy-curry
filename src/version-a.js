@@ -8,12 +8,6 @@ const checkByField = (comparer) => (field) => (value, threshold) => comparer(val
 const checkOverField = checkByField(greater)
 const checkEqualField = checkByField(equal)
 const checkUnderField = checkByField(lesser)
-const checkEqual7 = checkByValue(is(7))
-const checkEqual3 = checkByValue(is(3))
-const checkEqualExpected = checkEqualField('expected')
-const checkOverHigh = checkOverField('high')
-const checkUnderLow = checkUnderField('low')
-const checkOverExpected = checkOverField('expected')
 const yes = () => true
 
 const findConditionAndOperate = (conditions) => (item, threshold) =>
@@ -22,43 +16,37 @@ const findConditionAndOperate = (conditions) => (item, threshold) =>
   ).operation(item)
 
 const getValueReplacer = (prop) => (object, value) => ({...object, [prop]: value})
-const statusReplacer = getValueReplacer('status')
-const preloadStatusReplacerValue = (value) => (object) => statusReplacer(object, value)
-const statusWithThree = preloadStatusReplacerValue('THREE')
-const statusWithSeven = preloadStatusReplacerValue('SEVEN')
-const statusWithPerfect = preloadStatusReplacerValue('PERFECT')
+const preloadStatusReplacerValue = (value) => (object) => getValueReplacer('status')(object, value)
 const statusWithError = preloadStatusReplacerValue('ERROR')
-const statusWithWarning = preloadStatusReplacerValue('WARNING')
-const statusWithOK = preloadStatusReplacerValue('OK')
 
 const logic = [
   {
-    condition: checkEqual3,
-    operation: statusWithThree,
+    condition: checkByValue(is(3)),
+    operation: preloadStatusReplacerValue('THREE'),
   },
   {
-    condition: checkEqual7,
-    operation: statusWithSeven,
+    condition: checkByValue(is(7)),
+    operation: preloadStatusReplacerValue('SEVEN'),
   },
   {
-    condition: checkEqualExpected,
-    operation: statusWithPerfect,
+    condition: checkEqualField('expected'),
+    operation: preloadStatusReplacerValue('PERFECT'),
   },
   {
-    condition: checkOverHigh,
+    condition: checkOverField('high'),
     operation: statusWithError,
   },
   {
-    condition: checkOverExpected,
-    operation: statusWithWarning,
+    condition: checkOverField('expected'),
+    operation: preloadStatusReplacerValue('WARNING'),
   },
   {
-    condition: checkUnderLow,
+    condition: checkUnderField('low'),
     operation: statusWithError,
   },
   {
     condition:  yes,
-    operation: statusWithOK,
+    operation: preloadStatusReplacerValue('OK'),
   },
 ]
 
