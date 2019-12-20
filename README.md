@@ -126,3 +126,9 @@ the functions.
 Here's another test.
 
 * In addition to the other rules, I want to add an odd/even prop.
+
+
+So now that we've refactored a bit, how is changing it?
+
+* If the value has the "reverseme" flag, add a "reversed" field with the name
+    reveresed.
