@@ -3,7 +3,9 @@ export const basic = (thresholds, data) => data.map((item) => {
   const threshold = thresholds[item.name]
   if (threshold) {
     const { value } = item
-    if (value > threshold.high) {
+    if (value === threshold.expected) {
+      newItem.status = 'PERFECT'
+    } else if (value > threshold.high) {
       newItem.status = 'ERROR'
     } else if (value > threshold.expected) {
       newItem.status = 'WARNING'
